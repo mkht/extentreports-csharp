@@ -72,7 +72,7 @@ namespace AventStack.ExtentReports
             ApplyCommonNodeSettings(node);
             return node;
         }
-        
+
         /// <summary>
         /// Removes a direct child of the current test
         /// </summary>
@@ -175,7 +175,7 @@ namespace AventStack.ExtentReports
             return Log(status, details);
         }
 
-        private ExtentTest AddLog(Log evt)
+        public ExtentTest AddLog(Log evt)
         {
             Model.LogContext.Add(evt);
             Extent.AddLog(Model, evt);
@@ -188,7 +188,7 @@ namespace AventStack.ExtentReports
             return this;
         }
 
-        private Log CreateLog(Status status, string details = null)
+        public Log CreateLog(Status status, string details = null)
         {
             details = details == null ? "" : details.Trim();
             Log evt = new Log(this.Model)
@@ -196,6 +196,19 @@ namespace AventStack.ExtentReports
                 Status = status,
                 Details = details,
                 Sequence = Model.LogContext.All().Count + 1
+            };
+            return evt;
+        }
+
+        public Log CreateLog(Status status, DateTime timestamp, string details = null)
+        {
+            details = details == null ? "" : details.Trim();
+            Log evt = new Log(this.Model)
+            {
+                Status = status,
+                Details = details,
+                Sequence = Model.LogContext.All().Count + 1,
+                Timestamp = timestamp
             };
             return evt;
         }
